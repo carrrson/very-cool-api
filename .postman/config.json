@@ -1,0 +1,16 @@
+{
+  "workspace": {
+    "id": "9d79f49a-726e-4385-a556-1a6f3291189a"
+  },
+  "entities": {
+    "collections": [
+      "../postman/collections/partner-pricing_51749748-dc7184f0-27e4-430f-bd47-3ba6f3ad32e0.postman_collection.json"
+    ],
+    "environments": [
+      "../postman/environments/Meridian - partner-pricing_51749748-50602785-7b92-404c-b3ec-c4b253f3eabc.postman_environment.json"
+    ],
+    "specs": [],
+    "flows": [],
+    "globals": []
+  }
+}

@@ -1,0 +1,215 @@
+{
+  "info": {
+    "_postman_id": "dc7184f0-27e4-430f-bd47-3ba6f3ad32e0",
+    "name": "partner-pricing",
+    "description": "Meridian partner pricing. PROBLEM STATE: ownership unclear. Contains a SHADOW endpoint ('Bulk price override') that partners call in production but is NOT in the spec. Lab goal: identify the shadow endpoint and either document it in the spec or formally deprecate it without breaking the partner.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get price list",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"status is 200\", () => pm.response.to.have.status(200));"
+            ],
+            "id": "35d2a7fa-55bc-481b-a606-a2f4cc985308"
+          }
+        }
+      ],
+      "id": "46efd136-d5c7-4fbd-addb-ec6ee2a6e846",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/prices",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "prices"
+          ]
+        }
+      },
+      "response": [
+        {
+          "id": "cba1efdb-1e0a-4cfe-964f-b9c768346115",
+          "name": "200 - prices",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/prices",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "prices"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "responseTime": null,
+          "body": "{\n  \"items\": [\n    {\n      \"sku\": \"SKU-1\",\n      \"price\": 4.5\n    }\n  ]\n}"
+        }
+      ]
+    },
+    {
+      "name": "Get partner price",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"status is 200\", () => pm.response.to.have.status(200));"
+            ],
+            "id": "d93ddb54-9709-47a5-8a20-ee63270e3bb6"
+          }
+        }
+      ],
+      "id": "54beaa53-cd85-4cb3-8d38-5ddb0277c2f4",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/prices/partner/ACME",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "prices",
+            "partner",
+            "ACME"
+          ]
+        }
+      },
+      "response": [
+        {
+          "id": "212e0b48-9408-44e3-a735-d492b13c6838",
+          "name": "200 - partner",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/prices/partner/ACME",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "prices",
+                "partner",
+                "ACME"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "responseTime": null,
+          "body": "{\n  \"partner\": \"ACME\",\n  \"discount\": 0.12\n}"
+        }
+      ]
+    },
+    {
+      "name": "Bulk price override (SHADOW - not in spec)",
+      "id": "4234649b-ff1e-41ae-bdd4-d4d11fc1aee1",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"partner\": \"ACME\",\n  \"overrides\": [\n    {\n      \"sku\": \"SKU-1\",\n      \"price\": 3.99\n    }\n  ]\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/prices/override/bulk",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "prices",
+            "override",
+            "bulk"
+          ]
+        }
+      },
+      "response": [
+        {
+          "id": "428210f5-326b-4ce7-8cb8-cdbebc7952b9",
+          "name": "200 - overridden",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}",
+              "host": [
+                "{{baseUrl}}"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "responseTime": null,
+          "body": "{\n  \"applied\": 1,\n  \"partner\": \"ACME\"\n}"
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "{{baseUrl}}"
+    }
+  ]
+}
